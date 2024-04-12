@@ -1,0 +1,6 @@
+rootProject.name = 'checkwith-be'
+// api
+include 'api'
+
+// data
+include 'data'
