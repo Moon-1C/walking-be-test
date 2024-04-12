@@ -1,0 +1,63 @@
+server:
+  port: 8080
+
+# spring config
+spring:
+  config:
+    use-legacy-processing: true
+  profiles:
+    # add import modules profile
+    include:
+      - flyway-api
+      - data
+  datasource:
+    jdbc-url: ${DB_HOSTNAME}/api?allowPublicKeyRetrieval=true&rewriteBatchedStatements=true
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+# prometheus config
+management:
+  endpoint:
+    metrics:
+      enabled: true
+    prometheus:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+# security config
+security:
+  jwt:
+    token:
+      validtime:
+        access: 21600000
+        refresh: 2073600000
+      secretkey: ${TOKEN_SECRETKEY}
+  cors:
+    path-patterns: ${CORS_PATH_PATTERNS}
+    origin-patterns: ${CORS_ORIGIN_PATTERNS}
+    allowed-methods: ${CORS_ALLOWED_METHODS}
+    allowed-headers: ${CORS_ALLOWED_HEADERS}
+    exposed-headers: ${CORS_EXPOSED_HEADERS}
+    allow-credentials: ${CORS_ALLOW_CREDENTIALS}
+    max-age: ${CORS_MAX_AGE}
+
+# cookie config
+cookie:
+  domain: ${COOKIE_DOMAIN}
+  path: ${COOKIE_PATH}
+  max-age: ${COOKIE_MAX_AGE}
+
+# log config
+log:
+  file:
+    path: ${FILE_LOG_PATH}
+
+# api docs config
+springdoc:
+  swagger-ui:
+    url: /docs/openapi3.yaml
+    path: /swagger

@@ -1,0 +1,86 @@
+apply from: '../tasks/docs-task.gradle'
+
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
+}
+
+dependencies {
+    implementation project(':data')
+
+    // web
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    // swagger & restdocs
+    implementation "org.springdoc:springdoc-openapi-ui:${springDocOpenApiUiVersion}"
+    swaggerUI "org.webjars:swagger-ui:${swaggerUIVersion}"
+    implementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
+    implementation "com.epages:restdocs-api-spec-mockmvc:${epagesRestDocsApiSpecVersion}"
+
+    // actuator
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+
+    // prometheus
+    runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
+
+    //jwt
+    implementation "io.jsonwebtoken:jjwt-api:${jsonwebtokenVersion}"
+    implementation "io.jsonwebtoken:jjwt-impl:${jsonwebtokenVersion}"
+    implementation "io.jsonwebtoken:jjwt-jackson:${jsonwebtokenVersion}"
+
+    // jackson
+    implementation 'com.fasterxml.jackson.core:jackson-databind'
+    implementation 'com.fasterxml.jackson.core:jackson-core'
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
+    implementation group: 'com.google.code.findbugs', name: 'jsr305', version: "${jsr305Version}"
+
+
+    // security
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    testImplementation 'org.springframework.security:spring-security-test'
+}
+
+def imageName = project.hasProperty('imageName') ? imageName : "api"
+def releaseVersion = project.hasProperty('releaseVersion') ? releaseVersion : null
+
+def repository = "walking/${imageName}"
+
+task buildDockerImage {
+    dependsOn 'bootJar'
+    dependsOn 'copySwaggerUI'
+
+    doLast {
+        exec {
+            workingDir '.'
+            commandLine 'docker','run','--privileged','--rm','tonistiigi/binfmt','--install','all'
+        }
+        exec {
+            workingDir '.'
+            commandLine 'docker','buildx','create','--use'
+        }
+        exec {
+            workingDir '.'
+            commandLine 'docker','buildx', 'build','--platform=linux/amd64,linux/arm64', '-t', repository, '--build-arg', "RELEASE_VERSION=${releaseVersion}", '.', '--push'
+        }
+    }
+}
+
+def moduleStaticPath = "/api/src/main/resources/static"
+swaggerSources {
+    sample {
+        setInputFile(file(rootProject.rootDir.toString() + moduleStaticPath + "/openapi3.yaml"))
+    }
+}
+
+tasks.withType(GenerateSwaggerUI) {
+    dependsOn 'openapi3'
+}
+
+tasks.register('copySwaggerUI', Copy) {
+    dependsOn 'generateSwaggerUI'
+    def generateSwaggerUISampleTask = tasks.named('generateSwaggerUISample', GenerateSwaggerUI).get()
+    from("${generateSwaggerUISampleTask.outputDir}")
+    into(rootProject.rootDir.toString() + moduleStaticPath + "/docs/swagger-ui")
+}
