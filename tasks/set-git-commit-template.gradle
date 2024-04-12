@@ -1,0 +1,4 @@
+task setGitCommitTemplate() {
+    Runtime.getRuntime().exec("git config commit.template " + rootProject.rootDir.toString() + "/resources/commit/git-commit-template.txt");
+
+}
