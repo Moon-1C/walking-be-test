@@ -1,4 +1,4 @@
-rootProject.name = 'checkwith-be'
+rootProject.name = 'walking-be'
 // api
 include 'api'
 
