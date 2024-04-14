@@ -1,4 +1,4 @@
-package com.walking.data;
+package com.walking.api.data;
 
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;

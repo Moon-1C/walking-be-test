@@ -1,6 +1,6 @@
-package com.walking.data.entity;
+package com.walking.api.data.entity;
 
-import com.walking.data.entity.support.listener.SoftDeleteListener;
+import com.walking.api.data.entity.support.listener.SoftDeleteListener;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.EntityListeners;

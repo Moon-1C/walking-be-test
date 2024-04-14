@@ -1,6 +1,6 @@
-package com.walking.data.entity.support.listener;
+package com.walking.api.data.entity.support.listener;
 
-import com.walking.data.entity.BaseEntity;
+import com.walking.api.data.entity.BaseEntity;
 import javax.persistence.PreRemove;
 
 /** 엔티티에 삭제되었다는 정보를 반영하기 위해서 리스너가 필요하다. */

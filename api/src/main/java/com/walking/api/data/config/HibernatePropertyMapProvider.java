@@ -1,4 +1,4 @@
-package com.walking.data.config;
+package com.walking.api.data.config;
 
 import java.util.Map;
 import lombok.RequiredArgsConstructor;

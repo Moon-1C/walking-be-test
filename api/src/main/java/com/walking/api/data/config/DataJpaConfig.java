@@ -1,6 +1,6 @@
-package com.walking.data.config;
+package com.walking.api.data.config;
 
-import static com.walking.data.DataConfig.BEAN_NAME_PREFIX;
+import static com.walking.api.data.DataConfig.BEAN_NAME_PREFIX;
 
 import java.util.Map;
 import org.springframework.beans.factory.ObjectProvider;
