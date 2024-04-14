@@ -1,14 +1,13 @@
 package com.walking.api.web.config;
 
+import com.walking.api.security.config.CorsConfigurationSourceProperties;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @RequiredArgsConstructor
-@Import({CorsConfigurationSourceProperties.class})
 public class WebConfig implements WebMvcConfigurer {
 
 	private final CorsConfigurationSourceProperties corsProperties;
