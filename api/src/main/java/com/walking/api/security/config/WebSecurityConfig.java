@@ -126,7 +126,7 @@ public class WebSecurityConfig {
 	public CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration configuration = new CorsConfiguration();
 
-		configuration.addAllowedOriginPattern(corsProperties.getOriginPattern());
+		configuration.addAllowedOriginPattern(corsProperties.getOriginPatterns());
 		configuration.addAllowedHeader(corsProperties.getAllowedHeaders());
 		configuration.addAllowedMethod(corsProperties.getAllowedMethods());
 		configuration.setAllowCredentials(corsProperties.getAllowCredentials());
