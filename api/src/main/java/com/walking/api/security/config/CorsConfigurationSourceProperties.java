@@ -12,7 +12,7 @@ public class CorsConfigurationSourceProperties {
 	private String pathPattern;
 
 	@Value("${security.cors.origin-patterns}")
-	private String originPattern;
+	private String originPatterns;
 
 	@Value("${security.cors.allowed-methods}")
 	private String allowedMethods;
